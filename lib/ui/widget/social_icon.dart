@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SocialIcon extends StatelessWidget {
   final Color color;
   final IconData iconData;
-  final Function onPressed;
+  final VoidCallback onPressed;
   SocialIcon({required this.color, required this.iconData, required this.onPressed});
   @override
   Widget build(BuildContext context) {
