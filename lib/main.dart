@@ -3,8 +3,7 @@ import 'package:shame_app/themes/colors.dart';
 import 'package:shame_app/ui/views/home_page.dart';
 import 'package:shame_app/ui/views/home_view.dart';
 import 'package:shame_app/ui/views/login_view.dart';
-//import 'form_view.dart';
-//import 'package:shame_app/services/rmq_service.dart';
+
 
 void main() => runApp(const MyApp());
 
