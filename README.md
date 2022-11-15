@@ -1,4 +1,4 @@
-# fitness_app
+# SHAME_app
 
 A new Flutter project.
 
