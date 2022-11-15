@@ -3,10 +3,15 @@ import 'package:shame_app/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:shame_app/date_utils.dart';
 import 'package:shame_app/blocs/home_page_bloc.dart';
+import 'package:dart_amqp/dart_amqp.dart';
 
 class MyHomePage extends StatefulWidget {
   //const MyHomePage({super.key});
+  String user;
+  String pass;
+  String vhost;
 
+  MyHomePage({required this.user, required this.pass, required this.vhost});
 
   @override
   State<MyHomePage> createState() => MyHomePageState();
@@ -15,6 +20,10 @@ class MyHomePage extends StatefulWidget {
 class MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
   late HomePageBloc _homePageBloc;
   late AnimationController _iconAnimationController;
+  String payload = "";
+  late Client client;
+  bool rmq_status = true;
+  bool check_status = false;
 
   @override
   void initState() {
@@ -22,6 +31,47 @@ class MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMi
     _iconAnimationController =
         AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
     super.initState();
+    connect();
+  }
+
+  void connect() {
+    try {
+      ConnectionSettings settings = new ConnectionSettings(
+        host: 'rmq2.pptik.id',
+        authProvider: new PlainAuthenticator(widget.user, widget.pass),
+        virtualHost: widget.vhost,
+      );
+
+      Client client = new Client(settings: settings);
+
+      client.errorListener((error) {print("dsa${error.toString()}"); });
+      client.connect().catchError((Object error){
+        print("dsa ${error.toString()}");
+        setState(() {
+          rmq_status = false;
+        });
+      });
+      client.connect().then((value){
+        setState(() {
+          rmq_status = true;
+        });
+      });
+
+      client
+          .channel()
+          .then((Channel channel) => channel.queue("Sensor_PZEM004T", durable: true))
+          .then((Queue queue) => queue.consume())
+          .then((Consumer consumer) => consumer.listen((AmqpMessage message) {
+        print("test ${message.payloadAsString}");
+        //setValuePompa(message.payloadAsString);
+        setState(() {
+          payload = message.payloadAsString;
+        });
+      }));
+
+    } on Exception catch (e) {
+      print("[x]Received False ${e.toString()}");
+    }
   }
 
   // ignore: non_constant_identifier_names
