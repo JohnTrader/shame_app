@@ -66,11 +66,12 @@ class _HomeViewState extends State<HomeView> {
           .then((Queue queue) => queue.consume())
           .then((Consumer consumer) => consumer.listen((AmqpMessage message) {
         print("test ${message.payloadAsString}");
-        setValuePompa(message.payloadAsString);
+        //setValuePompa(message.payloadAsString);
         setState(() {
           payload = message.payloadAsString;
         });
       }));
+
       client
           .channel()
           .then((Channel channel) => channel.queue("Log", durable: true))
@@ -82,11 +83,14 @@ class _HomeViewState extends State<HomeView> {
           payload = message.payloadAsString;
         });
       }));
+
+
     }on Exception catch(e){
       print("[x]Received False ${e.toString()}");
     }
-
   }
+
+
   Widget userList(BuildContext context, int index) {
     return Container(
       decoration: BoxDecoration(
@@ -139,6 +143,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -172,6 +177,7 @@ class _HomeViewState extends State<HomeView> {
     throw UnimplementedError();
   }
 
+
   void randomSensor(String title,String serial,String value) {
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('EEE,d MMM yyyy, HH:mm:ss a').format(now);
@@ -188,6 +194,7 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
+
   String randomValue(String sensor) {
 
     if (sensor == 'Humidity') {
@@ -197,6 +204,7 @@ class _HomeViewState extends State<HomeView> {
       return 'Status : $sensor';
     }
   }
+
 
   void setValuePompa(String message) {
     List<String> list = message.split("#");
@@ -211,6 +219,7 @@ class _HomeViewState extends State<HomeView> {
       randomSensor("Pompa", pompa_serial, pompa_value);
     });
   }
+
 
   void setValueSoil(String message) {
     List<String> a = message.split("#");
