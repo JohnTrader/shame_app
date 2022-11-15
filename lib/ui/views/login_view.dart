@@ -236,8 +236,9 @@ class _loginScreenState extends State<loginScreen> {
   void connectDevice(){
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => HomeView(user: user.text,pass: pass.text,vhost: vhost.text,)),
+      //MaterialPageRoute(builder: (context) => HomeView(user: user.text,pass: pass.text,vhost: vhost.text,)),
       //MaterialPageRoute(builder: (context) => MyHomePage(),)
+      MaterialPageRoute(builder: (context) => MyHomePage(user: user.text,pass: pass.text,vhost: vhost.text,)),
     );
   }
   void _radio() {
