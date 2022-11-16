@@ -62,7 +62,7 @@ class MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMi
           .then((Channel channel) => channel.queue("Sensor_PZEM004T", durable: true))
           .then((Queue queue) => queue.consume())
           .then((Consumer consumer) => consumer.listen((AmqpMessage message) {
-        print("test ${message.payloadAsString}");
+        print("[x] Received ${message.payloadAsString}");
         //setValuePompa(message.payloadAsString);
         setState(() {
           payload = message.payloadAsString;
