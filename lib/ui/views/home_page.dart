@@ -6,7 +6,7 @@ import 'package:shame_app/blocs/home_page_bloc.dart';
 import 'package:dart_amqp/dart_amqp.dart';
 
 class MyHomePage extends StatefulWidget {
-  //const MyHomePage({super.key});
+
   String user;
   String pass;
   String vhost;
@@ -21,12 +21,13 @@ class MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMi
   late HomePageBloc _homePageBloc;
   late AnimationController _iconAnimationController;
   String payload = "";
-  late Client client;
+  //late Client client;
   bool rmq_status = true;
   bool check_status = false;
 
   @override
   void initState() {
+    //client = Client();
     _homePageBloc = HomePageBloc();
     _iconAnimationController =
         AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
@@ -42,7 +43,7 @@ class MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMi
         virtualHost: widget.vhost,
       );
 
-      Client client = new Client(settings: settings);
+      Client client = Client(settings: settings);
 
       client.errorListener((error) {print("dsa${error.toString()}"); });
       client.connect().catchError((Object error){
@@ -53,7 +54,23 @@ class MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMi
       });
       client.connect().then((value){
         setState(() {
+          print("Connected to AMQP");
           rmq_status = true;
+         // DataSensor();
+ /*
+          client
+              .channel()
+              .then((Channel channel) => channel.queue("Sensor_PZEM004T", durable: true))
+              .then((Queue queue) => queue.consume())
+              .then((Consumer consumer) => consumer.listen((AmqpMessage message) {
+            print("[x] Received ${message.payloadAsString}");
+            print("Received Data...");
+            //setValuePompa(message.payloadAsString);
+            setState(() {
+              payload = message.payloadAsString;
+            });
+          }));
+*/
         });
       });
 
@@ -63,9 +80,11 @@ class MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMi
           .then((Queue queue) => queue.consume())
           .then((Consumer consumer) => consumer.listen((AmqpMessage message) {
         print("[x] Received ${message.payloadAsString}");
+        print("Received Data...");
         //setValuePompa(message.payloadAsString);
         setState(() {
           payload = message.payloadAsString;
+
         });
       }));
 
@@ -73,7 +92,28 @@ class MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMi
       print("[x]Received False ${e.toString()}");
     }
   }
+/*
+  void DataSensor() async {
+    Client client = Client();
+    Channel channel = await client.channel(); // auto-connect to localhost:5672 using guest credentials
+    Queue queue = await channel.queue("Sensor_PZEM004T");
+    Consumer consumer = await queue.consume();
+    consumer.listen((AmqpMessage message) {
+      // Get the payload as a string
+      print(" [x] Received string: ${message.payloadAsString}");
 
+      // Or unserialize to json
+      print(" [x] Received json: ${message.payloadAsJson}");
+
+      // Or just get the raw data as a Uint8List
+      print(" [x] Received raw: ${message.payload}");
+
+      // The message object contains helper methods for
+      // replying, ack-ing and rejecting
+      message.reply("world");
+    });
+  }
+*/
   // ignore: non_constant_identifier_names
   void_dispose() {
     _homePageBloc.dispose();
