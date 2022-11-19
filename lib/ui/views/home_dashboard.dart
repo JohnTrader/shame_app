@@ -1,19 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:shame_app/ui/views/home_page.dart';
 import 'package:shame_app/ui/views/temperature.dart';
+import 'package:dart_amqp/dart_amqp.dart';
 
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+
+  String user;
+  String pass;
+  String vhost;
+
+  HomePage({required this.user, required this.pass, required this.vhost});
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  TextEditingController user = new TextEditingController();
-  TextEditingController pass = new TextEditingController();
-  TextEditingController vhost = new TextEditingController();
+  String payload = "";
+  //late Client client;
+  bool rmq_status = true;
+  bool check_status = false;
+
+  @override
+  void initState() {
+    //client = Client();
+    super.initState();
+    connect();
+  }
+
+  void connect() {
+    try {
+
+      ConnectionSettings settings = new ConnectionSettings(
+        host: 'rmq2.pptik.id',
+        authProvider: new PlainAuthenticator(widget.user, widget.pass),
+        virtualHost: widget.vhost,
+      );
+
+      Client client = Client(settings: settings);
+
+      client.errorListener((error) {print("dsa${error.toString()}"); });
+      client.connect().catchError((Object error){
+        print("dsa ${error.toString()}");
+        setState(() {
+          rmq_status = false;
+        });
+      });
+      client.connect().then((value){
+        setState(() {
+          print("Connected to AMQP");
+          rmq_status = true;
+        });
+      });
+      print("Received Data...");
+      client
+          .channel()
+          .then((Channel channel) => channel.queue("Sensor_PZEM004T", durable: true))
+          .then((Queue queue) => queue.consume())
+          .then((Consumer consumer) => consumer.listen((AmqpMessage message) {
+        print("[x] Received ${message.payloadAsString}");
+        print("Received Data...");
+        //setValuePompa(message.payloadAsString);
+        setState(() {
+          payload = message.payloadAsString;
+
+        });
+      }));
+
+    } on Exception catch (e) {
+      print("[x]Received False ${e.toString()}");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                     const Text(
                       'SERVICES',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -86,14 +144,14 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MyHomePage(user: user.text,pass: pass.text,vhost: vhost.text),
+                                builder: (context) => MyHomePage(),
                               ),
                             );
                           },
                           icon: 'assets/images/energy.png',
                           title: 'ENERGY',
-                          color: Colors.pinkAccent,
-                          fontColor: Colors.white,
+                          color: Colors.orangeAccent,
+                          fontColor: Colors.black54,
                         ),
                         _cardMenu(
                           onTap: () {
@@ -118,10 +176,14 @@ class _HomePageState extends State<HomePage> {
                         _cardMenu(
                           icon: 'assets/images/water.png',
                           title: 'WATER',
+                          color: Colors.purpleAccent,
+                          fontColor: Colors.white,
                         ),
                         _cardMenu(
                           icon: 'assets/images/entertainment.png',
                           title: 'ENTERTAINMENT',
+                          color: Colors.greenAccent,
+                          fontColor: Colors.black54,
                         ),
                       ],
                     ),
