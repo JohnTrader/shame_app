@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shame_app/ui/utils/constant.dart';
 //import 'package:shame_app/ui/views/home_view.dart';
-import 'package:shame_app/ui/views/home_page.dart';
+//import 'package:shame_app/ui/views/home_page.dart';
+import 'package:shame_app/ui/views/home_dashboard.dart';
 
 class loginScreen extends StatefulWidget {
   const loginScreen({super.key});
@@ -78,7 +79,7 @@ class _loginScreenState extends State<loginScreen> {
                                 connectDevice();
                               },
                               child: Center(
-                                child: Text("SIGNIN",
+                                child: Text("SIGN IN",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: "Poppins-Bold",
@@ -237,8 +238,9 @@ class _loginScreenState extends State<loginScreen> {
     Navigator.push(
       context,
       //MaterialPageRoute(builder: (context) => HomeView(user: user.text,pass: pass.text,vhost: vhost.text,)),
-      //MaterialPageRoute(builder: (context) => MyHomePage(),)
-      MaterialPageRoute(builder: (context) => MyHomePage(user: user.text,pass: pass.text,vhost: vhost.text,)),
+      //MaterialPageRoute(builder: (context) => MyHomePage(),
+        MaterialPageRoute(builder: (context) => HomePage(),)
+      //MaterialPageRoute(builder: (context) => MyHomePage(user: user.text,pass: pass.text,vhost: vhost.text,)),
     );
   }
   void _radio() {
