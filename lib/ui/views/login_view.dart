@@ -1,5 +1,3 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shame_app/ui/utils/constant.dart';
@@ -59,9 +57,7 @@ class _loginScreenState extends State<loginScreen> {
 
                       InkWell(
                         child: Container(
-                          //width: ScreenUtil.getInstance().setWidth(330),
                           width: ScreenUtil().setWidth(330),
-                          //height: ScreenUtil.getInstance().setHeight(100),
                           height: ScreenUtil().setHeight(100),
                           decoration: BoxDecoration(
                               color: kPrimaryColor,
@@ -114,7 +110,6 @@ class _loginScreenState extends State<loginScreen> {
   Widget horizontalLine() => Padding(
     padding: EdgeInsets.symmetric(horizontal: 16.0),
     child: Container(
-      //width: ScreenUtil.getInstance().setWidth(120),
       width: ScreenUtil().setWidth(120),
       height: 1.0,
       color: Colors.black26.withOpacity(.2),
@@ -239,7 +234,7 @@ class _loginScreenState extends State<loginScreen> {
       context,
       //MaterialPageRoute(builder: (context) => HomeView(user: user.text,pass: pass.text,vhost: vhost.text,)),
       //MaterialPageRoute(builder: (context) => MyHomePage(),
-        MaterialPageRoute(builder: (context) => HomePage(),)
+        MaterialPageRoute(builder: (context) => HomePage(user: user.text,pass: pass.text,vhost: vhost.text,)),
       //MaterialPageRoute(builder: (context) => MyHomePage(user: user.text,pass: pass.text,vhost: vhost.text,)),
     );
   }
