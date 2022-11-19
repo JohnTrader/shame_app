@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shame_app/ui/utils/constant.dart';
-import 'package:shame_app/ui/views/home_view.dart';
+//import 'package:shame_app/ui/views/home_view.dart';
 import 'package:shame_app/ui/views/home_page.dart';
 
 class loginScreen extends StatefulWidget {
