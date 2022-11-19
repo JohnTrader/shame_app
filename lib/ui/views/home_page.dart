@@ -3,16 +3,16 @@ import 'package:shame_app/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:shame_app/date_utils.dart';
 import 'package:shame_app/blocs/home_page_bloc.dart';
-import 'package:dart_amqp/dart_amqp.dart';
+//import 'package:dart_amqp/dart_amqp.dart';
 
 class MyHomePage extends StatefulWidget {
-
+/*
   String user;
   String pass;
   String vhost;
 
   MyHomePage({required this.user, required this.pass, required this.vhost});
-
+*/
   @override
   State<MyHomePage> createState() => MyHomePageState();
 }
@@ -20,6 +20,7 @@ class MyHomePage extends StatefulWidget {
 class MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
   late HomePageBloc _homePageBloc;
   late AnimationController _iconAnimationController;
+
   String payload = "";
   //late Client client;
   bool rmq_status = true;
@@ -32,9 +33,9 @@ class MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMi
     _iconAnimationController =
         AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
     super.initState();
-    connect();
+   // connect();
   }
-
+/*
   void connect() {
     try {
       ConnectionSettings settings = new ConnectionSettings(
@@ -92,6 +93,8 @@ class MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMi
       print("[x]Received False ${e.toString()}");
     }
   }
+
+ */
 /*
   void DataSensor() async {
     Client client = Client();
