@@ -127,6 +127,7 @@ class MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMi
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.indigo.shade50,
       body: Stack(
         children: <Widget>[
           Column(
