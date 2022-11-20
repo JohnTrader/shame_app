@@ -6,13 +6,7 @@ import 'package:shame_app/blocs/home_page_bloc.dart';
 //import 'package:dart_amqp/dart_amqp.dart';
 
 class MyHomePage extends StatefulWidget {
-/*
-  String user;
-  String pass;
-  String vhost;
 
-  MyHomePage({required this.user, required this.pass, required this.vhost});
-*/
   @override
   State<MyHomePage> createState() => MyHomePageState();
 }
@@ -35,88 +29,6 @@ class MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMi
     super.initState();
    // connect();
   }
-/*
-  void connect() {
-    try {
-      ConnectionSettings settings = new ConnectionSettings(
-        host: 'rmq2.pptik.id',
-        authProvider: new PlainAuthenticator(widget.user, widget.pass),
-        virtualHost: widget.vhost,
-      );
-
-      Client client = Client(settings: settings);
-
-      client.errorListener((error) {print("dsa${error.toString()}"); });
-      client.connect().catchError((Object error){
-        print("dsa ${error.toString()}");
-        setState(() {
-          rmq_status = false;
-        });
-      });
-      client.connect().then((value){
-        setState(() {
-          print("Connected to AMQP");
-          rmq_status = true;
-         // DataSensor();
- /*
-          client
-              .channel()
-              .then((Channel channel) => channel.queue("Sensor_PZEM004T", durable: true))
-              .then((Queue queue) => queue.consume())
-              .then((Consumer consumer) => consumer.listen((AmqpMessage message) {
-            print("[x] Received ${message.payloadAsString}");
-            print("Received Data...");
-            //setValuePompa(message.payloadAsString);
-            setState(() {
-              payload = message.payloadAsString;
-            });
-          }));
-*/
-        });
-      });
-
-      client
-          .channel()
-          .then((Channel channel) => channel.queue("Sensor_PZEM004T", durable: true))
-          .then((Queue queue) => queue.consume())
-          .then((Consumer consumer) => consumer.listen((AmqpMessage message) {
-        print("[x] Received ${message.payloadAsString}");
-        print("Received Data...");
-        //setValuePompa(message.payloadAsString);
-        setState(() {
-          payload = message.payloadAsString;
-
-        });
-      }));
-
-    } on Exception catch (e) {
-      print("[x]Received False ${e.toString()}");
-    }
-  }
-
- */
-/*
-  void DataSensor() async {
-    Client client = Client();
-    Channel channel = await client.channel(); // auto-connect to localhost:5672 using guest credentials
-    Queue queue = await channel.queue("Sensor_PZEM004T");
-    Consumer consumer = await queue.consume();
-    consumer.listen((AmqpMessage message) {
-      // Get the payload as a string
-      print(" [x] Received string: ${message.payloadAsString}");
-
-      // Or unserialize to json
-      print(" [x] Received json: ${message.payloadAsJson}");
-
-      // Or just get the raw data as a Uint8List
-      print(" [x] Received raw: ${message.payload}");
-
-      // The message object contains helper methods for
-      // replying, ack-ing and rejecting
-      message.reply("world");
-    });
-  }
-*/
   // ignore: non_constant_identifier_names
   void_dispose() {
     _homePageBloc.dispose();
