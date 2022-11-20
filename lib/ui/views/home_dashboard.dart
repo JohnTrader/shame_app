@@ -29,12 +29,12 @@ class _HomePageState extends State<HomePage> {
     connect();
   }
 
-  void connect() {
+  Future<void> connect() async {
     try {
 
-      ConnectionSettings settings = new ConnectionSettings(
+      ConnectionSettings settings = ConnectionSettings(
         host: 'rmq2.pptik.id',
-        authProvider: new PlainAuthenticator(widget.user, widget.pass),
+        authProvider: PlainAuthenticator(widget.user, widget.pass),
         virtualHost: widget.vhost,
       );
 
@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
       });
       client.connect().then((value){
         setState(() {
-          print("Connected to AMQP");
+          print("Connected to RabbitMQ-AMQP");
           rmq_status = true;
         });
       });
@@ -64,10 +64,8 @@ class _HomePageState extends State<HomePage> {
         //setValuePompa(message.payloadAsString);
         setState(() {
           payload = message.payloadAsString;
-
         });
       }));
-      print("Received Data...");
     } on Exception catch (e) {
       print("[x]Received False ${e.toString()}");
     }
@@ -86,16 +84,17 @@ class _HomePageState extends State<HomePage> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text(
-                    'HI TMDG2022...',
+                children:  [
+                  const Text(
+                    'Hi...',
                     style: TextStyle(
                       fontSize: 18,
                       color: Colors.indigo,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
-                  RotatedBox(
+
+                  const RotatedBox(
                     quarterTurns: 135,
                     child: Icon(
                       Icons.bar_chart_rounded,
@@ -103,6 +102,18 @@ class _HomePageState extends State<HomePage> {
                       size: 28,
                     ),
                   )
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    widget.user,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.indigo,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ],
               ),
               Expanded(
@@ -122,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                         'Welcome to SHA.ME',
                         style: TextStyle(
                           fontSize: 32,
-                          color: Colors.indigo,
+                          color: Colors.black54,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -132,6 +143,7 @@ class _HomePageState extends State<HomePage> {
                       'SERVICES',
                       style: TextStyle(
                         fontSize: 18,
+                        color: Colors.black54,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
