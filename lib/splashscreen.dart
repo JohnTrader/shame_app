@@ -13,7 +13,7 @@ class SplashScreen extends StatelessWidget {
 
       splash: Lottie.asset('assets/images/shame_logo.json'),
       splashIconSize: 250,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.indigo.shade100,
         pageTransitionType: PageTransitionType.rightToLeftWithFade,
 
       nextScreen:const loginScreen()
