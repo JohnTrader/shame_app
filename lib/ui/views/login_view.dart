@@ -30,12 +30,12 @@ class _loginScreenState extends State<loginScreen> {
     );
 
     return Scaffold(
+      backgroundColor: Colors.indigo.shade50,
       body: SingleChildScrollView(
         controller: controller,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            //SizedBox(height: ScreenUtil.getInstance().setHeight(100),),
             SizedBox(height: ScreenUtil().setHeight(100),),
             // MyHeader(
             //   image: "assets/icons/barbecue.svg",
