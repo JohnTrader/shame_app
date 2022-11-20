@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String payload = "";
   //late Client client;
-  bool rmq_status = true;
+  bool rmq_status = false;
   bool check_status = false;
 
   @override
@@ -53,7 +53,7 @@ class _HomePageState extends State<HomePage> {
           rmq_status = true;
         });
       });
-      print("Received Data...");
+
       client
           .channel()
           .then((Channel channel) => channel.queue("Sensor_PZEM004T", durable: true))
@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
 
         });
       }));
-
+      print("Received Data...");
     } on Exception catch (e) {
       print("[x]Received False ${e.toString()}");
     }
@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.indigo.shade50,
+      backgroundColor: Colors.indigo.shade100,
       body: SafeArea(
         child: Container(
           margin: const EdgeInsets.only(top: 18, left: 24, right: 24),
