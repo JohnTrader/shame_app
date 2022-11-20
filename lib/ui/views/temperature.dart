@@ -17,7 +17,7 @@ class _TemperaturePageState extends State<TemperaturePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.indigo.shade50,
+      backgroundColor: Colors.indigo.shade100,
       body: SafeArea(
         child: Container(
           margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
@@ -56,11 +56,12 @@ class _TemperaturePageState extends State<TemperaturePage> {
                       radius: 180,
                       lineWidth: 30,
                       percent: 0.75,
-                      progressColor: Colors.deepPurple,
+                      progressColor: Colors.blueAccent,
                       center: const Text(
                         '26\u00B0',
                         style: TextStyle(
-                          fontSize: 62,
+                          fontSize: 70,
+                          color: Colors.indigo,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
