@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shame_app/ui/views/home_dashboard.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 
 class RadialProgress extends StatefulWidget {
@@ -14,6 +15,7 @@ class _RadialProgressState extends State<RadialProgress> with SingleTickerProvid
 
   double progressDegrees = 0;
   var count = 0;
+  String payload= '2.256';
 
   @override
   void initState() {
@@ -58,7 +60,7 @@ class _RadialProgressState extends State<RadialProgress> with SingleTickerProvid
               ),
               Container(
                 height: 5.0,
-                width: 80.0,
+                width: 94.0,
                 decoration: BoxDecoration(
                     color: Colors.purple,
                     borderRadius: BorderRadius.all(Radius.circular(4.0))),
@@ -67,13 +69,14 @@ class _RadialProgressState extends State<RadialProgress> with SingleTickerProvid
                 height: 10.0,
               ),
               Text(
-                '2.256',
+                payload,
+                //'2.256',
                 style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
               ),
               Text(
                 'KWH USED',
                 style: TextStyle(
-                    fontSize: 14.0, color: Colors.blue, letterSpacing: 1.5),
+                    fontSize: 14.0, color: Colors.blue, letterSpacing: 1.5,fontWeight: FontWeight.bold),
               ),
             ],
           ),
