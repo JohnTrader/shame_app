@@ -4,6 +4,7 @@ import 'package:shame_app/ui/utils/constant.dart';
 //import 'package:shame_app/ui/views/home_view.dart';
 //import 'package:shame_app/ui/views/home_page.dart';
 import 'package:shame_app/ui/views/home_dashboard.dart';
+import '../../radial_progress.dart';
 
 class loginScreen extends StatefulWidget {
   const loginScreen({super.key});
@@ -49,7 +50,6 @@ class _loginScreenState extends State<loginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   loginCard(context),
-                  //SizedBox(height: ScreenUtil.getInstance().setHeight(40)),
                   SizedBox(height: ScreenUtil().setHeight(40)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -233,9 +233,9 @@ class _loginScreenState extends State<loginScreen> {
     Navigator.push(
       context,
       //MaterialPageRoute(builder: (context) => HomeView(user: user.text,pass: pass.text,vhost: vhost.text,)),
-      //MaterialPageRoute(builder: (context) => MyHomePage(),
-        MaterialPageRoute(builder: (context) => HomePage(user: user.text,pass: pass.text,vhost: vhost.text,)),
-      //MaterialPageRoute(builder: (context) => MyHomePage(user: user.text,pass: pass.text,vhost: vhost.text,)),
+      //MaterialPageRoute(builder: (context) => MyHomePage()),
+      //MaterialPageRoute(builder: (context) => RadialProgress(user: user.text,pass: pass.text,vhost: vhost.text,)),
+      MaterialPageRoute(builder: (context) => HomePage(user: user.text,pass: pass.text,vhost: vhost.text,)),
     );
   }
   void _radio() {
