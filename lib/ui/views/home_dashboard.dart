@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shame_app/ui/views/home_page.dart';
 import 'package:shame_app/ui/views/temperature.dart';
-import 'package:dart_amqp/dart_amqp.dart';
+//import 'package:dart_amqp/dart_amqp.dart';
+//import '../../radial_progress.dart';
+
 
 
 class HomePage extends StatefulWidget {
@@ -17,58 +19,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String payload = "";
-  //late Client client;
+
+  late String payload;
   bool rmq_status = false;
   bool check_status = false;
 
   @override
   void initState() {
-    //client = Client();
+
     super.initState();
-    connect();
-  }
 
-  Future<void> connect() async {
-    try {
-
-      ConnectionSettings settings = ConnectionSettings(
-        host: 'rmq2.pptik.id',
-        authProvider: PlainAuthenticator(widget.user, widget.pass),
-        virtualHost: widget.vhost,
-      );
-
-      Client client = Client(settings: settings);
-
-      client.errorListener((error) {print("dsa${error.toString()}"); });
-      client.connect().catchError((Object error){
-        print("dsa ${error.toString()}");
-        setState(() {
-          rmq_status = false;
-        });
-      });
-      client.connect().then((value){
-        setState(() {
-          print("Connected to RabbitMQ-AMQP");
-          rmq_status = true;
-        });
-      });
-
-      client
-          .channel()
-          .then((Channel channel) => channel.queue("Sensor_PZEM004T", durable: true))
-          .then((Queue queue) => queue.consume())
-          .then((Consumer consumer) => consumer.listen((AmqpMessage message) {
-        print("[x] Received ${message.payloadAsString}");
-        print("Received Data...");
-        //setValuePompa(message.payloadAsString);
-        setState(() {
-          payload = message.payloadAsString;
-        });
-      }));
-    } on Exception catch (e) {
-      print("[x]Received False ${e.toString()}");
-    }
   }
 
   @override
@@ -88,7 +48,7 @@ class _HomePageState extends State<HomePage> {
                   const Text(
                     'Hi...',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 24,
                       color: Colors.indigo,
                       fontWeight: FontWeight.normal,
                     ),
@@ -107,6 +67,8 @@ class _HomePageState extends State<HomePage> {
               Row(
                 children: [
                   Text(
+                    //payload,
+                    //"TMDG2022",
                     widget.user,
                     style: TextStyle(
                       fontSize: 18,
@@ -156,7 +118,8 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MyHomePage(),
+                                builder: (context) => MyHomePage(user: widget.user,pass: widget.pass,vhost: widget.vhost,),
+                                //builder: (context) => MyHomePage(payload:payload),
                               ),
                             );
                           },
