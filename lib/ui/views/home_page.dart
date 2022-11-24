@@ -3,37 +3,85 @@ import 'package:shame_app/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:shame_app/date_utils.dart';
 import 'package:shame_app/blocs/home_page_bloc.dart';
-//import 'package:dart_amqp/dart_amqp.dart';
+import 'package:dart_amqp/dart_amqp.dart';
+
+import 'home_dashboard.dart';
+
 
 class MyHomePage extends StatefulWidget {
+  String user;
+  String pass;
+  String vhost;
+
+  MyHomePage({required this.user, required this.pass, required this.vhost});
 
   @override
-  State<MyHomePage> createState() => MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
+class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
   late HomePageBloc _homePageBloc;
   late AnimationController _iconAnimationController;
 
-  String payload = "";
-  //late Client client;
-  bool rmq_status = true;
+  String payload="";
+  bool rmq_status = false;
   bool check_status = false;
 
   @override
   void initState() {
-    //client = Client();
     _homePageBloc = HomePageBloc();
     _iconAnimationController =
         AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
     super.initState();
-   // connect();
+    connect();
+
   }
   // ignore: non_constant_identifier_names
   void_dispose() {
     _homePageBloc.dispose();
     _iconAnimationController.dispose();
     super.dispose();
+  }
+
+  Future<void> connect() async {
+    try {
+
+      ConnectionSettings settings = ConnectionSettings(
+        host: 'rmq2.pptik.id',
+        authProvider: PlainAuthenticator(widget.user, widget.pass),
+        virtualHost: widget.vhost,
+      );
+
+      Client client = Client(settings: settings);
+
+      client.errorListener((error) {print("dsa${error.toString()}"); });
+      client.connect().catchError((Object error){
+        print("dsa ${error.toString()}");
+        setState(() {
+          rmq_status = false;
+        });
+      });
+      client.connect().then((value){
+        setState(() {
+          print("Connected to RabbitMQ-AMQP");
+          rmq_status = true;
+        });
+      });
+
+      client
+          .channel()
+          .then((Channel channel) => channel.queue("Sensor_PZEM004T", durable: true))
+          .then((Queue queue) => queue.consume())
+          .then((Consumer consumer) => consumer.listen((AmqpMessage message) {
+        print("[x] Diterima ${message.payloadAsString}");
+
+        setState(() {
+          payload = message.payloadAsString;
+        });
+      }));
+    } on Exception catch (e) {
+      print("[x]Received False ${e.toString()}");
+    }
   }
 
   @override
@@ -110,26 +158,28 @@ class MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMi
                   )
                 ],
               ),
-              RadialProgress(),
+
+              RadialProgress(payload:payload),
               MonthlyStatusListing()
             ],
           ),
           Positioned(
-            bottom: 50,
+            bottom: 20,
             left: 0,
             right: 0,
             child: Container(
               alignment: Alignment.bottomCenter,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.red, width: 4.0)),
+                  border: Border.all(color: Colors.redAccent, width: 4.0)),
               child: IconButton(
                   icon: AnimatedIcon(
                       icon: AnimatedIcons.menu_close,
-                      color: Colors.red,
+                      color: Colors.redAccent,
                       progress: _iconAnimationController.view),
                   onPressed: () {
                     onIconPressed();
+                    //MaterialPageRoute(builder: (context) => HomePage(user: widget.user,pass: widget.pass,vhost: widget.vhost,));
                   }),
             ),
           )
@@ -141,6 +191,7 @@ class MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMi
     animationStatus
         ? _iconAnimationController.reverse()
         : _iconAnimationController.forward();
+
   }
 
   bool get animationStatus {
