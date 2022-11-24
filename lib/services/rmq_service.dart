@@ -1,4 +1,5 @@
 import 'package:dart_amqp/dart_amqp.dart';
+import 'package:flutter/material.dart';
 
 class RMQService{
   final String userQueue = "TMDG2022";
@@ -12,7 +13,9 @@ class RMQService{
       host: hostQueue,
       authProvider: new PlainAuthenticator(userQueue, passQueue),
       virtualHost: VhostQueue,
-
+      //host: 'rmq2.pptik.id',
+      //authProvider: PlainAuthenticator(widget.user, widget.pass),
+      //virtualHost: widget.vhost,
     );
     Client client = new Client(settings: settings);
     client
@@ -20,7 +23,7 @@ class RMQService{
         .then((Channel channel) => channel.queue("Sensor_PZEM004T",durable: true))
         .then((Queue queue) => queue.consume())
         .then((Consumer consumer) => consumer.listen((AmqpMessage message) {
-      print("test ${message.payloadAsString}");
+      print("Diterima ${message.payloadAsString}");
       payload = message.payloadAsString;
     }));
 
