@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:shame_app/ui/views/home_dashboard.dart';
 import 'package:vector_math/vector_math_64.dart' as math;
 
 class RadialProgress extends StatefulWidget {
-  final double goalCompleted = 0.7;
+  final double goalCompleted=0.75;
+
+  final String payload;
+  const RadialProgress({super.key, required this.payload});
+ //const RadialProgress(this.payload,{super.key});
 
   @override
   _RadialProgressState createState() => _RadialProgressState();
@@ -13,9 +16,9 @@ class _RadialProgressState extends State<RadialProgress> with SingleTickerProvid
   late AnimationController _radialProgressAnimationController;
   late Animation<double> _progressAnimation;
 
+
   double progressDegrees = 0;
   var count = 0;
-  String payload= '2.256';
 
   @override
   void initState() {
@@ -26,10 +29,10 @@ class _RadialProgressState extends State<RadialProgress> with SingleTickerProvid
         parent: _radialProgressAnimationController, curve: Curves.easeIn))
       ..addListener(() {
         setState(() {
+          //widget.goalCompleted=widget.payload;
           progressDegrees = widget.goalCompleted * _progressAnimation.value;
         });
       });
-
     _radialProgressAnimationController.forward();
   }
 
@@ -69,8 +72,7 @@ class _RadialProgressState extends State<RadialProgress> with SingleTickerProvid
                 height: 10.0,
               ),
               Text(
-                payload,
-                //'2.256',
+                widget.payload,
                 style: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
               ),
               Text(
