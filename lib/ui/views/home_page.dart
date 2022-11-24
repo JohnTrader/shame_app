@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:shame_app/date_utils.dart';
 import 'package:shame_app/blocs/home_page_bloc.dart';
 import 'package:dart_amqp/dart_amqp.dart';
-
-import 'home_dashboard.dart';
+import '../../dbhelper/mongodb.dart';
+//import 'home_dashboard.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -73,10 +73,11 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           .then((Channel channel) => channel.queue("Sensor_PZEM004T", durable: true))
           .then((Queue queue) => queue.consume())
           .then((Consumer consumer) => consumer.listen((AmqpMessage message) {
-        print("[x] Diterima ${message.payloadAsString}");
+        print("[x] Diterima RabbitMQ ${message.payloadAsString}");
 
         setState(() {
           payload = message.payloadAsString;
+          MongoDatabase.connect(payload);
         });
       }));
     } on Exception catch (e) {
@@ -158,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                   )
                 ],
               ),
-
+              //MongoDatabase.connect(),
               RadialProgress(payload:payload),
               MonthlyStatusListing()
             ],
