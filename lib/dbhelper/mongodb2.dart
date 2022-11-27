@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:faker/faker.dart';
 import 'package:intl/intl.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:shame_app/MongoDBModel.dart';
@@ -11,7 +10,7 @@ import 'mongodb.dart';
 class MongoDatabase2 {
 
   static connect(String payload) async {
-  //static connect(String fName, String lName, String address) async {
+
     var db = await Db.create(MONGO_CONN_URL);
     await db.open();
     inspect(db);
@@ -20,18 +19,13 @@ class MongoDatabase2 {
     var collection = db.collection(USER_COLLECTION);
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('d-MMM-yyyy HH:mm:ss').format(now);
-    /*await collection.insertOne({
-        "Sensor" : "Energy",
-        "KWH" : payload,
-        "Time" : formattedDate
-         },
-     ); */
-    String fName = "Energy";
-    String lName = payload;
-    String address = formattedDate;
+
+    String _Sensor = "Energy";
+    String _KWH = payload;
+    String _Time = formattedDate;
     var _id = M.ObjectId();
     final data = MongoDbModel(
-        id: _id, firstName: fName, lastName: lName, address: address);
+        id: _id, firstName: _Sensor, lastName: _KWH, address: _Time);
     //var result = await MongoDatabase.insert(data);
     await MongoDatabase.insert(data);
       //print(await collection.find().toList());
