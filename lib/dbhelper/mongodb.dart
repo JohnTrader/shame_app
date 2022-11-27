@@ -1,40 +1,8 @@
-import 'dart:developer';
 import 'package:intl/intl.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:shame_app/MongoDBModel.dart';
 import 'package:shame_app/dbhelper/constant.dart';
-
-/*
-class MongoDatabase {
-
-  //static connect(String payload) async {
-  static connect(String payload) async {
-    var db = await Db.create(MONGO_CONN_URL);
-    await db.open();
-    inspect(db);
-    //var status = db.serverStatus();
-    //print(status);
-    var collection = db.collection(USER_COLLECTION);
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('d-MMM-yyyy HH:mm:ss').format(now);
-    await collection.insertOne({
-        "Sensor" : "Energy",
-        "KWH" : payload,
-        "Time" : formattedDate
-         },
-     );
-
-      //print(await collection.find().toList());
-      print("[x] Sukses Kirim Data ke MongoDB ");
-      // await collection.update(where.eq('username','np'), modify.set('name','Max Pax'));
-      //print(await collection.find().toList());
-      //await collection.deleteOne({"username": "np"});
-      //await collection.deleteMany({"Sensor": "Energy"});
-    }
-  }
-*/
-
-
+import 'package:mongo_dart/mongo_dart.dart' as M;
 
 class MongoDatabase{
    static var db, userCollection;
@@ -47,15 +15,15 @@ class MongoDatabase{
    }
 
    static insertData(String payload) async{
-
      DateTime now = DateTime.now();
      String formattedDate = DateFormat('d-MMM-yyyy HH:mm:ss').format(now);
-     await userCollection.insertOne({
-       "Sensor" : "Energy",
-       "KWH" : payload,
-       "Time" : formattedDate
-       },
-     );
+     String _Sensor = "Energy";
+     String _KWH = payload;
+     String _Time = formattedDate;
+     var _id = M.ObjectId();
+     final data = MongoDbModel(
+         id: _id, firstName: _Sensor, lastName: _KWH, address: _Time);
+     await MongoDatabase.insert(data);
      print("[x] Sukses Kirim Data ke MongoDB ");
    }
 
