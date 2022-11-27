@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 //import 'package:shame_app/dbhelper/mongodb.dart';
 import 'package:shame_app/themes/colors.dart';
 import 'package:shame_app/splashscreen.dart';
+
+import 'dbhelper/mongodb.dart';
 //import 'package:shame_app/ui/views/home_dashboard.dart';
 //import 'package:shame_app/ui/views/home_page.dart';
 //import 'package:shame_app/ui/views/home_view.dart';
@@ -11,7 +13,7 @@ import 'package:shame_app/splashscreen.dart';
 //void main() => runApp(const MyApp());
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  //await MongoDatabase.connect();
+  await MongoDatabase.connect();
   runApp(const MyApp());
 }
 
