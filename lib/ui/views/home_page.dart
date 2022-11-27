@@ -79,8 +79,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 
         setState(() {
           payload = message.payloadAsString;
-          //MongoDatabase.insertData(payload);
-          MongoDatabase2.connect(payload);
+          MongoDatabase.insertData(payload);
+          //MongoDatabase2.connect(payload);
           //MongoDbInsert();
         });
       }));
