@@ -1,3 +1,4 @@
+import 'package:shame_app/insert.dart';
 import 'package:shame_app/radial_progress.dart';
 import 'package:shame_app/top_bar.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:shame_app/date_utils.dart';
 import 'package:shame_app/blocs/home_page_bloc.dart';
 import 'package:dart_amqp/dart_amqp.dart';
 import '../../dbhelper/mongodb.dart';
+import '../../dbhelper/mongodb2.dart';
 //import 'home_dashboard.dart';
 
 
@@ -77,7 +79,9 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 
         setState(() {
           payload = message.payloadAsString;
-          MongoDatabase.connect(payload);
+          //MongoDatabase.insertData(payload);
+          MongoDatabase2.connect(payload);
+          //MongoDbInsert();
         });
       }));
     } on Exception catch (e) {
