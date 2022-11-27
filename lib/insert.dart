@@ -71,10 +71,10 @@ class _MongoDbInsertState extends State<MongoDbInsert> {
     );
   }
 
-  Future<void> _insertData(String fName, String lName, String address) async {
+  Future<void> _insertData(String _Sensor, String _KWH, String _Time) async {
     var _id = M.ObjectId();
     final data = MongoDbModel(
-        id: _id, firstName: fName, lastName: lName, address: address);
+        id: _id, firstName: _Sensor, lastName: _KWH, address: _Time);
     //var result = await MongoDatabase.insert(data);
     await MongoDatabase.insert(data);
     ScaffoldMessenger.of(context)
