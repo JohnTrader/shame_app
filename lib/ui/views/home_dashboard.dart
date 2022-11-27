@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shame_app/ui/views/home_page.dart';
 import 'package:shame_app/ui/views/temperature.dart';
+
+import '../../display.dart';
 //import 'package:dart_amqp/dart_amqp.dart';
 //import '../../radial_progress.dart';
 
@@ -149,8 +151,16 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         _cardMenu(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MongoDbDisplay(),
+                              ),
+                            );
+                          },
                           icon: 'assets/images/water.png',
-                          title: 'WATER',
+                          title: 'DATA LOG',
                           color: Colors.purpleAccent,
                           fontColor: Colors.white,
                         ),
