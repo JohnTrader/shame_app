@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:shame_app/display.dart';
+import 'package:shame_app/insert.dart';
 import 'package:shame_app/ui/views/login_view.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -17,6 +19,8 @@ class SplashScreen extends StatelessWidget {
         pageTransitionType: PageTransitionType.rightToLeftWithFade,
 
       nextScreen:const loginScreen()
+        //nextScreen:const MongoDbInsert()
+        //nextScreen:const MongoDbDisplay()
     );
   }
 }
