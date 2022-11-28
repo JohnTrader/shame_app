@@ -3,6 +3,7 @@ import 'package:shame_app/ui/views/home_page.dart';
 import 'package:shame_app/ui/views/temperature.dart';
 
 import '../../display.dart';
+import '../../show_graph.dart';
 //import 'package:dart_amqp/dart_amqp.dart';
 //import '../../radial_progress.dart';
 
@@ -165,8 +166,16 @@ class _HomePageState extends State<HomePage> {
                           fontColor: Colors.white,
                         ),
                         _cardMenu(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ShowGraph(),
+                              ),
+                            );
+                          },
                           icon: 'assets/images/entertainment.png',
-                          title: 'ENTERTAINMENT',
+                          title: 'GRAPH',
                           color: Colors.greenAccent,
                           fontColor: Colors.black54,
                         ),
