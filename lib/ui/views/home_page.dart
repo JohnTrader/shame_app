@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:shame_app/date_utils.dart';
 import 'package:shame_app/blocs/home_page_bloc.dart';
 import 'package:dart_amqp/dart_amqp.dart';
+import '../../activities_widget.dart';
 import '../../dbhelper/mongodb.dart';
-import '../../dbhelper/mongodb2.dart';
+//import '../../dbhelper/mongodb2.dart';
 //import 'home_dashboard.dart';
-
 
 class MyHomePage extends StatefulWidget {
   String user;
@@ -21,11 +21,12 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
   late HomePageBloc _homePageBloc;
   late AnimationController _iconAnimationController;
 
-  String payload="";
+  String payload = "";
   bool rmq_status = false;
   bool check_status = false;
 
@@ -33,11 +34,13 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   void initState() {
     _homePageBloc = HomePageBloc();
     _iconAnimationController =
-        AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
+       AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
+    //_iconAnimationController =
+    //    AnimationController(vsync: this, duration: Duration(milliseconds: 300));
     super.initState();
     connect();
-
   }
+
   // ignore: non_constant_identifier_names
   void_dispose() {
     _homePageBloc.dispose();
@@ -47,7 +50,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 
   Future<void> connect() async {
     try {
-
       ConnectionSettings settings = ConnectionSettings(
         host: 'rmq2.pptik.id',
         authProvider: PlainAuthenticator(widget.user, widget.pass),
@@ -56,14 +58,16 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 
       Client client = Client(settings: settings);
 
-      client.errorListener((error) {print("dsa${error.toString()}"); });
-      client.connect().catchError((Object error){
+      client.errorListener((error) {
+        print("dsa${error.toString()}");
+      });
+      client.connect().catchError((Object error) {
         print("dsa ${error.toString()}");
         setState(() {
           rmq_status = false;
         });
       });
-      client.connect().then((value){
+      client.connect().then((value) {
         setState(() {
           print("Connected to RabbitMQ-AMQP");
           rmq_status = true;
@@ -72,18 +76,19 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
 
       client
           .channel()
-          .then((Channel channel) => channel.queue("Sensor_PZEM004T", durable: true))
+          .then((Channel channel) =>
+              channel.queue("Sensor_PZEM004T", durable: true))
           .then((Queue queue) => queue.consume())
           .then((Consumer consumer) => consumer.listen((AmqpMessage message) {
-        print("[x] Diterima RabbitMQ ${message.payloadAsString}");
+                print("[x] Diterima RabbitMQ ${message.payloadAsString}");
 
-        setState(() {
-          payload = message.payloadAsString;
-          MongoDatabase.insertData(payload);
-          //MongoDatabase2.connect(payload);
-          //MongoDbInsert();
-        });
-      }));
+                setState(() {
+                  payload = message.payloadAsString;
+                  MongoDatabase.insertData(payload);
+                  //MongoDatabase2.connect(payload);
+                  //MongoDbInsert();
+                });
+              }));
     } on Exception catch (e) {
       print("[x]Received False ${e.toString()}");
     }
@@ -124,8 +129,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                               child: Column(
                                 children: <Widget>[
                                   Text(
-                                    formatterDayOfWeek.format(
-                                        snapshot.requireData),
+                                    formatterDayOfWeek
+                                        .format(snapshot.requireData),
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 24.0,
@@ -164,16 +169,21 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                 ],
               ),
               //MongoDatabase.connect(),
-              RadialProgress(payload:payload),
+              SizedBox(
+                height: 10.0,
+              ),
+              RadialProgress(payload: payload),
               MonthlyStatusListing()
             ],
           ),
+          //ActivitiesWidget(_iconAnimationController, MediaQuery.of(context).size.height),
           Positioned(
-            bottom: 20,
+            bottom: 30,
             left: 0,
             right: 0,
             child: Container(
               alignment: Alignment.bottomCenter,
+              //decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: Colors.red, width: 4.0)),
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.redAccent, width: 4.0)),
@@ -192,11 +202,11 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       ),
     );
   }
+
   void onIconPressed() {
     animationStatus
         ? _iconAnimationController.reverse()
         : _iconAnimationController.forward();
-
   }
 
   bool get animationStatus {
@@ -204,14 +214,12 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     return status == AnimationStatus.completed;
   }
 }
+
 class MonthlyStatusListing extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     return Flexible(
-      child:
-      Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
