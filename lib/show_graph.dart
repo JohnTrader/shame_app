@@ -1,6 +1,7 @@
 import 'package:shame_app/sensor_data.dart';
 import 'package:shame_app/graph.dart';
 import 'package:flutter/material.dart';
+import '../../activities_widget.dart';
 
 class ShowGraph extends StatefulWidget {
   @override
@@ -34,11 +35,14 @@ class _ShowGraphState extends State<ShowGraph> with SingleTickerProviderStateMix
               _graphAnimationController.forward();
             },
             child: Graph(
-                animationController: _graphAnimationController,
-                values: dayData
+                //animationController: _graphAnimationController,
+                graphAnimationController: _graphAnimationController,
+                values: runningDayData
+                //values: dayData
             ),
           ),
         ),
+        //ActivitiesWidget(_iconAnimationController, MediaQuery.of(context).size.height),
       ),
     );
   }
