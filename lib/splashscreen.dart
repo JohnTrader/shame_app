@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shame_app/display.dart';
 import 'package:shame_app/insert.dart';
+import 'package:shame_app/smarthome_ui/src/smart_home_control_page.dart';
 import 'package:shame_app/ui/views/login_view.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -21,6 +22,7 @@ class SplashScreen extends StatelessWidget {
       nextScreen:const loginScreen()
         //nextScreen:const MongoDbInsert()
         //nextScreen:const MongoDbDisplay()
+      //nextScreen:const SmartHomeControlPage()
     );
   }
 }
