@@ -4,6 +4,7 @@ import 'package:shame_app/ui/views/temperature.dart';
 
 import '../../display.dart';
 import '../../show_graph.dart';
+import '../../smarthome_ui/src/smart_home_control_page.dart';
 //import 'package:dart_amqp/dart_amqp.dart';
 //import '../../radial_progress.dart';
 
@@ -136,13 +137,14 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const TemperaturePage(),
+                                //builder: (context) => const TemperaturePage(),
+                                builder: (context) => const SmartHomeControlPage(),
                               ),
                             );
                           },
                           icon: 'assets/images/temperature.png',
-                          title: 'TEMPERATURE',
-                          color: Colors.indigoAccent,
+                          title: 'CONTROL',
+                          color: Colors.blueAccent,
                           fontColor: Colors.white,
                         ),
                       ],
@@ -176,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                           },
                           icon: 'assets/images/entertainment.png',
                           title: 'GRAPH',
-                          color: Colors.greenAccent,
+                          color: Colors.lightGreen,
                           fontColor: Colors.black54,
                         ),
                       ],
