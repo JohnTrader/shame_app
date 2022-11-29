@@ -52,7 +52,7 @@ dependencies:
   page_transition: ^2.0.9
   percent_indicator: ^4.2.2
   mongo_dart: ^0.7.3
-
+  sleek_circular_slider: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -110,10 +110,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+     - family: HobbiesIcons
+       fonts:
+         - asset: assets/fonts/HobbiesIcons.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
