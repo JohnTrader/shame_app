@@ -15,6 +15,7 @@ class _MongoDbDisplayState extends State<MongoDbDisplay> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
+
           padding: const EdgeInsets.all(10.0),
           child: FutureBuilder(
               future: MongoDatabase.getData(),
