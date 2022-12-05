@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shame_app/ui/views/home_page.dart';
 import 'package:shame_app/ui/views/temperature.dart';
-
 import '../../display.dart';
 import '../../show_graph.dart';
 import '../../smarthome_ui/src/smart_home_control_page.dart';
